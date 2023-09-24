@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registro de Preguntas y Respuestas</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f9f9f9;
+      padding: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4">Registro de Preguntas y Respuestas</h1>
+    
+    <div class="form-group">
+      <label for="pregunta">Pregunta:</label>
+      <input type="text" class="form-control" id="pregunta" placeholder="Escribe tu pregunta">
+    </div>
+
+    <div class="form-group">
+      <label for="respuesta">Respuesta:</label>
+      <input type="text" class="form-control" id="respuesta" placeholder="Escribe tu respuesta">
+    </div>
+
+    <button class="btn btn-primary" onclick="registrarPreguntaYRespuesta()">Registrar</button>
+
+    <h2 class="mt-4">Respuestas Registradas</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Pregunta</th>
+          <th>Respuesta</th>
+          <th>Acciones</th> <!-- Nueva columna para las acciones -->
+        </tr>
+      </thead>
+      <tbody id="tablaRespuestas">
+        <!-- Las respuestas se mostrarán aquí -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+    function registrarPreguntaYRespuesta() {
+  const pregunta = document.getElementById('pregunta').value;
+  const respuesta = document.getElementById('respuesta').value;
+
+  // Crear una nueva fila en la tabla
+  const tabla = document.getElementById('tablaRespuestas');
+  const newRow = tabla.insertRow(tabla.rows.length);
+  const cell1 = newRow.insertCell(0);
+  const cell2 = newRow.insertCell(1);
+  const cell3 = newRow.insertCell(2);
+  cell1.innerHTML = pregunta;
+  cell2.innerHTML = respuesta;
+
+  // Agregar botones de eliminar y modificar
+  const deleteButton = document.createElement('button');
+  deleteButton.innerHTML = 'Eliminar';
+  deleteButton.className = 'btn btn-danger mr-2';
+  deleteButton.onclick = function() {
+    eliminarRespuesta(newRow);
+  };
+
+  const editButton = document.createElement('button');
+  editButton.innerHTML = 'Modificar';
+  editButton.className = 'btn btn-warning';
+  editButton.onclick = function() {
+    modificarRespuesta(newRow);
+  };
+
+  cell3.appendChild(deleteButton);
+  cell3.appendChild(editButton);
+
+  // Limpia los campos después de registrar
+  document.getElementById('pregunta').value = '';
+  document.getElementById('respuesta').value = '';
+}
+
+function eliminarRespuesta(row) {
+  const table = document.getElementById('tablaRespuestas');
+  table.deleteRow(row.rowIndex);
+}
+
+function modificarRespuesta(row) {
+  const pregunta = row.cells[0].innerHTML;
+  const respuesta = row.cells[1].innerHTML;
+
+  document.getElementById('pregunta').value = pregunta;
+  document.getElementById('respuesta').value = respuesta;
+
+  // Elimina la fila al modificar
+  eliminarRespuesta(row);
+}
+
+  </script>
+</body>
+</html>
